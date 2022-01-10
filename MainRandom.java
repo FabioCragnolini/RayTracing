@@ -1,4 +1,5 @@
 import java.util.*;
+import lib.*;
 
 public class MainRandom {
     public static void main(String[] args) {
