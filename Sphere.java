@@ -4,11 +4,13 @@ public class Sphere {
     public double radius;
     public Point center;
     public Point color;
+    public Material material;
 
-    public Sphere(double radius, Point center, Point color) {
+    public Sphere(double radius, Point center, Point color, Material material) {
         this.radius = radius;
         this.center = center;
         this.color = color;
+        this.material = material;
     }
 
     public int intersect(Sphere s) {

@@ -2,9 +2,11 @@ import java.util.*;
 
 public class MainRandom {
     public static void main(String[] args) {
+        Material plastic = new Material(Material.Type.DIFFUSE);
+
         Vector<Sphere> vs = new Vector<Sphere>();
-        vs.add(new Sphere(2, new Point(2, 2, -1), new Point(234, 45, 46)));
-        vs.add(new Sphere(2, new Point(-2, 2, 1.5), new Point(0, 116, 189)));
+        vs.add(new Sphere(2, new Point(2, 2, -1), new Point(234, 45, 46), plastic));
+        vs.add(new Sphere(2, new Point(-2, 2, 1.5), new Point(0, 116, 189), plastic));
 
         final int N = 107;
         Random rand = new Random();
@@ -13,13 +15,13 @@ public class MainRandom {
             do {
                 s = new Sphere(1.2,
                         new Point(rand.nextDouble(32.0) - 16.0, 0.7, rand.nextDouble(35.0) - 20.0),
-                        new Point(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255)));
+                        new Point(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)), plastic);
             } while (s.intersect(vs) == 1);
 
-            vs.add(new Sphere(0.7, s.center, s.color));
+            vs.add(new Sphere(0.7, s.center, s.color, plastic));
             // System.out.println(i);
         }
-        vs.add(new Sphere(1000, new Point(0, -1000, 0), new Point(128, 128, 180)));
+        vs.add(new Sphere(1000, new Point(0, -1000, 0), new Point(128, 128, 180), plastic));
 
         Vector<Light> vl = new Vector<Light>();
         vl.add(new Light(new Point(-20, 30, 30)));
