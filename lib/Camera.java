@@ -35,10 +35,14 @@ public class Camera {
         this.lookAt = lookAt;
     }
 
+    public void rotate(double degrees) {
+        this.upDir = new Point(Math.cos(Math.toRadians(-degrees + 90.0)), Math.sin(Math.toRadians(-degrees + 90.0)), 0);
+    }
+
     public Ray getRay(int i, int j) {
         // create camera coordinate system (u,v,w)
         Point w = Point.diff(lookFrom, lookAt).normalize();
-        Point u = Point.cross(upDir, w).normalize();
+        Point u = Point.cross(upDir, w);
         Point v = Point.cross(w, u);
 
         double fov = 1.0 / Math.tan(Math.toRadians(verticalFOV / 2.0));
