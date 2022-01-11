@@ -127,7 +127,7 @@ public class Scene {
 
         } else { // background
             int shade = (int) ((r.getDir().normalize().getY() + 1) / 2.0 * 255);
-            return new Point(255 - shade, 255 - shade, 255);
+            return new Point(255 - shade, 255 - shade / 1.5, 255);
         }
     }
 

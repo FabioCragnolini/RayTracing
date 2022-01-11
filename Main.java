@@ -4,6 +4,7 @@ import lib.*;
 public class Main {
     public static void main(String[] args) {
         Material plastic = new Material(Material.Type.DIFFUSE);
+        // plastic.setShiny(0.33, 30);
 
         Vector<Sphere> vs = new Vector<Sphere>();
         vs.add(new Sphere(1.5, new Point(0, 0, 0), new Point(255, 0, 0), plastic));
