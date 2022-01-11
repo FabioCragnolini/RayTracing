@@ -89,14 +89,14 @@ public class Scene {
         }
 
         if (intersection > 0.0) {
+            Point normalOrig = r.at(intersection);
+            Point normalDir = Point.diff(normalOrig, currentSphere.center).normalize();
+            Ray normal = new Ray(normalOrig, normalDir);
 
             switch (currentSphere.material.getType()) {
                 case DIFFUSE:
-                    Point shadowOrig = r.at(intersection);
-                    Point shadowDir = Point.diff(lights.get(0).origin, shadowOrig).normalize();
-                    Point normalDir = Point.diff(shadowOrig, currentSphere.center).normalize();
-                    shadowOrig = Point.sum(shadowOrig, Point.scalar(BIAS, normalDir)); // removing shadow acne
-                    Ray normal = new Ray(shadowOrig, normalDir);
+                    Point shadowDir = Point.diff(lights.get(0).origin, normalOrig).normalize();
+                    Point shadowOrig = Point.sum(normalOrig, Point.scalar(BIAS, normalDir)); // removing shadow acne
                     Ray shadowRay = new Ray(shadowOrig, shadowDir);
 
                     for (int i = 0; i < subject.size(); i++) {
@@ -107,7 +107,8 @@ public class Scene {
                     }
 
                     Point diffuse = Point.scalar(
-                            AMBIENT + ((1.0 - AMBIENT) * currentSphere.material.getkDiff() * Math.max(0.0, Point.dot(normal.getDir(), shadowRay.getDir()))),
+                            AMBIENT + ((1.0 - AMBIENT) * currentSphere.material.getkDiff()
+                                    * Math.max(0.0, Point.dot(normal.getDir(), shadowRay.getDir()))),
                             currentSphere.color);
                     Point shiny = Point.scalar(
                             currentSphere.material.getkShiny() * Math.max(0.0,
@@ -117,7 +118,8 @@ public class Scene {
                     return Point.sum(diffuse, shiny).clamp(0, 255);
 
                 case REFLECTIVE:
-                    return null;
+                    Ray reflectRay = r.reflection(normal);
+                    return Point.scalar(currentSphere.material.getkReflect(), cast(reflectRay, depth + 1));
                 case TRANPARENT:
                     // TODO
                     return null;

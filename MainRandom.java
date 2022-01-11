@@ -4,10 +4,12 @@ import lib.*;
 public class MainRandom {
     public static void main(String[] args) {
         Material plastic = new Material(Material.Type.DIFFUSE);
+        Material metal = new Material(Material.Type.REFLECTIVE);
 
         Vector<Sphere> vs = new Vector<Sphere>();
         vs.add(new Sphere(2, new Point(2, 2, -1), new Point(234, 45, 46), plastic));
         vs.add(new Sphere(2, new Point(-2, 2, 1.5), new Point(0, 116, 189), plastic));
+        //vs.add(new Sphere(1.5, new Point(5, 1.5, 3), new Point(0, 0, 0), metal));
 
         final int N = 107;
         Random rand = new Random();
