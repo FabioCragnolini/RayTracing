@@ -93,11 +93,22 @@ public class Scene {
             Point normalDir = Point.diff(normalOrig, currentSphere.center).normalize();
             Ray normal = new Ray(normalOrig, normalDir);
 
+            Point shadowDir = Point.diff(lights.get(0).origin, normalOrig).normalize();
+            Point shadowOrig = Point.sum(normalOrig, Point.scalar(BIAS, normalDir)); // removing shadow acne
+            Ray shadowRay = new Ray(shadowOrig, shadowDir);
+
+            Point diffuse = Point.scalar(
+                    AMBIENT + ((1.0 - AMBIENT) * currentSphere.material.getkDiff()
+                            * Math.max(0.0, Point.dot(normal.getDir(), shadowRay.getDir()))),
+                    currentSphere.color);
+            Point shiny = Point.scalar(
+                    currentSphere.material.getkShiny() * Math.max(0.0,
+                            Math.pow(Point.dot(r.getDir().normalize(), shadowRay.reflection(normal).getDir()),
+                                    currentSphere.material.getExpShiny())),
+                    new Point(255, 255, 255));
+
             switch (currentSphere.material.getType()) {
                 case DIFFUSE:
-                    Point shadowDir = Point.diff(lights.get(0).origin, normalOrig).normalize();
-                    Point shadowOrig = Point.sum(normalOrig, Point.scalar(BIAS, normalDir)); // removing shadow acne
-                    Ray shadowRay = new Ray(shadowOrig, shadowDir);
 
                     for (int i = 0; i < subject.size(); i++) {
                         if (shadowRay.intersect(subject.elementAt(i)) > 0) // no light passes
@@ -105,24 +116,16 @@ public class Scene {
                             return Point.scalar(AMBIENT, currentSphere.color); // ambient correction
                         }
                     }
-
-                    Point diffuse = Point.scalar(
-                            AMBIENT + ((1.0 - AMBIENT) * currentSphere.material.getkDiff()
-                                    * Math.max(0.0, Point.dot(normal.getDir(), shadowRay.getDir()))),
-                            currentSphere.color);
-                    Point shiny = Point.scalar(
-                            currentSphere.material.getkShiny() * Math.max(0.0,
-                                    Math.pow(Point.dot(r.getDir().normalize(), shadowRay.reflection(normal).getDir()),
-                                            currentSphere.material.getExpShiny())),
-                            new Point(255, 255, 255));
                     return Point.sum(diffuse, shiny).clamp(0, 255);
 
                 case REFLECTIVE:
-                    Ray reflectRay = r.reflection(normal);
-                    return Point.sum(currentSphere.color, Point.scalar(currentSphere.material.getkReflect(), cast(reflectRay, depth + 1))).clamp(0, 255);
+                    Ray reflectRay = r.reflection(normal);               
+                    return Point.sum(Point.scalar(currentSphere.material.getkReflect(), cast(reflectRay, depth + 1)), diffuse).clamp(0, 255);
+
                 case TRANPARENT:
                     // TODO
                     return null;
+                    
                 default:
                     return null;
             }

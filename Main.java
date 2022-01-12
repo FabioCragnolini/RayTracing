@@ -8,7 +8,7 @@ public class Main {
         // plastic.setShiny(0.33, 30);
 
         Vector<Sphere> vs = new Vector<Sphere>();
-        vs.add(new Sphere(1.5, new Point(3, 0, 0), new Point(0, 0, 0), metal));
+        vs.add(new Sphere(1.5, new Point(3, 0, 0), new Point(100, 100, 100), metal));
         vs.add(new Sphere(1.5, new Point(0, 0, 0), new Point(255, 0, 0), plastic));
         vs.add(new Sphere(100, new Point(0, -100 - 1.5, 0), new Point(0, 128, 0), plastic));
 

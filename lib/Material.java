@@ -9,7 +9,7 @@ public class Material {
     private double kDiff = 1;
     private double kShiny = 0.2;
     private double expShiny = 20;
-    private double kReflect = 0.8;
+    private double kReflect = 0.2;
 
     public Material(Type type) {
         this.type = type;
