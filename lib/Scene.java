@@ -119,7 +119,7 @@ public class Scene {
 
                 case REFLECTIVE:
                     Ray reflectRay = r.reflection(normal);
-                    return Point.scalar(currentSphere.material.getkReflect(), cast(reflectRay, depth + 1));
+                    return Point.sum(currentSphere.color, Point.scalar(currentSphere.material.getkReflect(), cast(reflectRay, depth + 1))).clamp(0, 255);
                 case TRANPARENT:
                     // TODO
                     return null;

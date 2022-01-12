@@ -40,7 +40,7 @@ public class Ray {
 
     public Ray reflection(Ray n)
     {
-        return new Ray(origin, Point.diff(dir, Point.scalar(2.0 * Point.dot(dir, n.dir), n.dir)));
+        return new Ray(n.origin, Point.diff(dir, Point.scalar(2.0 * Point.dot(dir, n.dir), n.dir)));
     }
 
     @Override
