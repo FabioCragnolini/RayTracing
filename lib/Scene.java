@@ -53,9 +53,10 @@ public class Scene {
                 progressBar((i + 1) / (camera.getyDim() / 20));
             }
         }
+        System.out.println("");
     }
 
-    public void out() {
+    public void out(String fileName) {
         int i = 0, j = 0;
         try {
             BufferedImage image = new BufferedImage(camera.getxDim(), camera.getyDim(), BufferedImage.TYPE_INT_RGB);
@@ -67,7 +68,7 @@ public class Scene {
                     image.setRGB(j, camera.getyDim() - 1 - i, pixelColor.getRGB());
                 }
             }
-            File output = new File("Render." + format);
+            File output = new File(fileName + "." + format);
             ImageIO.write(image, format, output);
         } catch (Exception e) {
             System.err.println(e);

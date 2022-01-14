@@ -9,18 +9,18 @@ public class Main {
         metal.setReflection(0.4);
 
         Vector<Sphere> vs = new Vector<Sphere>();
-        vs.add(new Sphere(1.5, new Point(0, 0, 0), new Point(255, 0, 0), plastic));
-        //vs.add(new Sphere(1.5, new Point(3, 0, 0), new Point(100, 100, 100), metal));
-        //vs.add(new Sphere(1.5, new Point(0, 0, 0), new Point(100, 100, 100), metal));
+        vs.add(new Sphere(1.5, new Point(-3, 0, 0), new Point(255, 0, 0), plastic));
+        vs.add(new Sphere(1.5, new Point(3, 0, 0), new Point(100, 100, 100), metal));
+        vs.add(new Sphere(1.5, new Point(0, 0, 0), new Point(100, 100, 100), metal));
         vs.add(new Sphere(100, new Point(0, -100 - 1.5, 0), new Point(0, 128, 0), plastic));
 
         Vector<Light> vl = new Vector<Light>();
-        vl.add(new Light(new Point(-2, 5, 3), 0.7, Light.Type.DISTANT));
-        vl.add(new Light(new Point(6, 10, 0), 0.3, Light.Type.DISTANT));
+        vl.add(new Light(new Point(-2, 5, 3), 1, Light.Type.DISTANT));
+        //vl.add(new Light(new Point(6, 10, 0), 0.3, Light.Type.DISTANT));
 
-        Camera myCamera = new Camera(new Point(0, 1, 9), new Point(0, 0, 0), 60, 1920, 1080);
+        Camera myCamera = new Camera(new Point(0, 1, 9), new Point(0, 0, 0), 60, 4000, 3000);
         Scene myScene = new Scene(vs, vl, myCamera);
         myScene.render();
-        myScene.out();
+        myScene.out("Render");
     }
 }
