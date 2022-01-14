@@ -1,2 +1,3 @@
 # Ignore temporary renders
 Render.*
+/*.png

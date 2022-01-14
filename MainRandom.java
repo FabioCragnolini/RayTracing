@@ -9,7 +9,7 @@ public class MainRandom {
         Vector<Sphere> vs = new Vector<Sphere>();
         vs.add(new Sphere(2, new Point(2, 2, -1), new Point(234, 45, 46), plastic));
         vs.add(new Sphere(2, new Point(-2, 2, 1.5), new Point(0, 116, 189), plastic));
-        //vs.add(new Sphere(1.5, new Point(5, 1.5, 3), new Point(0, 0, 0), metal));
+        // vs.add(new Sphere(1.5, new Point(5, 1.5, 3), new Point(0, 0, 0), metal));
 
         final int N = 107;
         Random rand = new Random();
@@ -27,7 +27,7 @@ public class MainRandom {
         vs.add(new Sphere(1000, new Point(0, -1000, 0), new Point(128, 128, 180), plastic));
 
         Vector<Light> vl = new Vector<Light>();
-        vl.add(new Light(new Point(-20, 30, 30)));
+        vl.add(new Light(new Point(-20, 30, 30), 1, Light.Type.DISTANT));
 
         Camera myCamera = new Camera(new Point(0, 10, 18), new Point(0, 1, 0), 45, 1920, 1080);
 

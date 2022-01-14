@@ -67,6 +67,10 @@ public class Point {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
+    public double length2() {
+        return x * x + y * y + z * z;
+    }
+
     public Point normalize() {
         return new Point(x / length(), y / length(), z / length());
     }
