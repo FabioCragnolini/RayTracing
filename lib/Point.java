@@ -40,6 +40,11 @@ public class Point {
         return p;
     }
 
+    public static Point sum(Point p1, Point p2, Point p3) {
+        Point p = new Point(p1.x + p2.x + p3.x, p1.y + p2.y + p3.y, p1.z + p2.z + p3.z);
+        return p;
+    }
+
     public static Point diff(Point p1, Point p2) {
         Point p = new Point(p1.x - p2.x, p1.y - p2.y, p1.z - p2.z);
         return p;
