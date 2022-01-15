@@ -18,7 +18,7 @@ public class Main {
         vl.add(new Light(new Point(-2, 5, 3), 1, Light.Type.DISTANT));
         //vl.add(new Light(new Point(6, 10, 0), 0.3, Light.Type.DISTANT));
 
-        Camera myCamera = new Camera(new Point(0, 1, 9), new Point(0, 0, 0), 60, 4000, 3000);
+        Camera myCamera = new Camera(new Point(0, 1, 9), new Point(0, 0, 0), 60, 1920, 1080);
         Scene myScene = new Scene(vs, vl, myCamera);
         myScene.render();
         myScene.out("Render");
