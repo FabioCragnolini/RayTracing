@@ -34,6 +34,51 @@ public class Ray {
             return t; // intersection
     }
 
+    public double intersect(Box b) {
+        double tmin, tmax;
+        if (dir.getX() >= 0) { 
+            tmin = (b.min.getX() - origin.getX()) / dir.getX(); 
+            tmax = (b.max.getX() - origin.getX()) / dir.getX(); 
+        } 
+        else {
+            tmin = (b.max.getX() - origin.getX()) / dir.getX(); 
+            tmax = (b.min.getX() - origin.getX()) / dir.getX(); 
+        }
+
+        double tymin, tymax;
+        if (dir.getY() >= 0) { 
+            tymin = (b.min.getY() - origin.getY()) / dir.getY(); 
+            tymax = (b.max.getY() - origin.getY()) / dir.getY(); 
+        } 
+        else {
+            tymin = (b.max.getY() - origin.getY()) / dir.getY(); 
+            tymax = (b.min.getY() - origin.getY()) / dir.getY(); 
+        }
+        if ((tmin > tymax) || (tymin > tmax)) 
+            return -1.0; 
+        if (tymin > tmin) 
+            tmin = tymin; 
+        if (tymax < tmax) 
+            tmax = tymax; 
+
+        double tzmin, tzmax;
+        if (dir.getZ() >= 0) { 
+            tzmin = (b.min.getZ() - origin.getZ()) / dir.getZ(); 
+            tzmax = (b.max.getZ() - origin.getZ()) / dir.getZ(); 
+        } 
+        else {
+            tzmin = (b.max.getZ() - origin.getZ()) / dir.getZ(); 
+            tzmax = (b.min.getZ() - origin.getZ()) / dir.getZ(); 
+        }
+        if ((tmin > tzmax) || (tzmin > tmax)) 
+            return -1.0; 
+        if (tzmin > tmin) 
+            tmin = tzmin; 
+        if (tzmax < tmax) 
+            tmax = tzmax; 
+        return tmin;
+    }
+
     public Point at(double t) {
         return Point.sum(origin, Point.scalar(t, dir));
     }

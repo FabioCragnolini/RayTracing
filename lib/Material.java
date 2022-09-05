@@ -2,7 +2,7 @@ package lib;
 
 public class Material {
     public enum Type {
-        DIFFUSE, REFLECTIVE, TRANPARENT
+        DIFFUSE, REFLECTIVE, TRANSPARENT
     };
 
     private Type type;
