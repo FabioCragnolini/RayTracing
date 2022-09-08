@@ -7,7 +7,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 public class Scene {
-    private Vector<Sphere> subject;
+    private Vector<Entity> subject;
     private Vector<Light> lights;
     private Camera camera;
     private Vector<Vector<Point>> matrix;
@@ -17,7 +17,7 @@ public class Scene {
     private final double AMBIENT = 0.2;
     private final int MAX_DEPTH = 5;
 
-    public Scene(Vector<Sphere> subject, Vector<Light> lights, Camera camera) {
+    public Scene(Vector<Entity> subject, Vector<Light> lights, Camera camera) {
         this.subject = subject;
         this.lights = lights;
         this.camera = camera;
@@ -81,28 +81,25 @@ public class Scene {
         if (depth > MAX_DEPTH)
             return new Point();
         double intersection = -1.0;
-        Sphere currentSphere = new Sphere(0, new Point(), new Point(), new Material(Material.Type.DIFFUSE));
+        Entity currentEntity = null;
         for (int i = 0; i < subject.size(); i++) // find closest intersection
         {
-            double currentIntersection = r.intersect(subject.elementAt(i));
+            double currentIntersection = subject.elementAt(i).intersect(r);
             if ((intersection == -1.0 && currentIntersection > 0)
                     || (currentIntersection > 0 && currentIntersection < intersection)) {
                 intersection = currentIntersection;
-                currentSphere = subject.elementAt(i);
+                currentEntity = subject.elementAt(i);
             }
         }
 
         if (intersection > 0.0) {
-
-            Point normalOrig = r.at(intersection);
-            Point normalDir = Point.diff(normalOrig, currentSphere.center).normalize();
-            Ray normal = new Ray(normalOrig, normalDir);
+            Ray normal = currentEntity.normal(r.at(intersection));
 
             Point currentColor = new Point();
             for (int iLight = 0; iLight < lights.size(); iLight++) // cycle all the lights
             {
-                currentColor = Point.sum(currentColor, Point.scalar(lights.elementAt(iLight).getIntensity(normalOrig),
-                        shading(currentSphere, r, normal, lights.elementAt(iLight), depth)));
+                currentColor = Point.sum(currentColor, Point.scalar(lights.elementAt(iLight).getIntensity(normal.getOrigin()),
+                        shading(currentEntity, r, normal, lights.elementAt(iLight), depth)));
             }
             return currentColor.clamp(0, 255);
 
@@ -112,40 +109,40 @@ public class Scene {
         }
     }
 
-    private Point shading(Sphere s, Ray eye, Ray normal, Light l, int depth) {
+    private Point shading(Entity e, Ray eye, Ray normal, Light l, int depth) {
         Point shadowOrig = Point.sum(normal.getOrigin(), Point.scalar(BIAS, normal.getDir())); // removing shadow acne
         Point shadowDir = Point.diff(l.origin, normal.getOrigin()).normalize();
         Ray shadowRay = new Ray(shadowOrig, shadowDir);
 
-        if (s.material.getType() == Material.Type.DIFFUSE) {
+        if (e.material.getType() == Material.Type.DIFFUSE) {
             for (int i = 0; i < subject.size(); i++) {
-                if (shadowRay.intersect(subject.elementAt(i)) > 0) // no light passes
+                if (subject.elementAt(i).intersect(shadowRay) > 0) // no light passes
                 {
-                    return Point.scalar(AMBIENT, s.color); // ambient correction
+                    return Point.scalar(AMBIENT, e.color); // ambient correction
                 }
             }
         }
 
         Point diffuse = Point.scalar(
-                AMBIENT + ((1.0 - AMBIENT) * s.material.getkDiff()
+                AMBIENT + ((1.0 - AMBIENT) * e.material.getkDiff()
                         * Math.max(0.0, Point.dot(normal.getDir(), shadowRay.getDir()))),
-                s.color);
+                e.color);
         Point shiny;
         if (Point.dot(normal.getDir(), shadowRay.getDir()) > 0.0) { // correct negative shiny reflection
             shiny = Point.scalar(
-                    s.material.getkShiny() * Math.max(0.0,
+                    e.material.getkShiny() * Math.max(0.0,
                             Math.pow(Point.dot(eye.getDir().normalize(), shadowRay.reflection(normal).getDir()),
-                                    s.material.getExpShiny())),
+                                    e.material.getExpShiny())),
                     new Point(255, 255, 255));
         } else
             shiny = new Point();
 
-        switch (s.material.getType()) {
+        switch (e.material.getType()) {
             case DIFFUSE:
                 return Point.sum(diffuse, shiny).clamp(0, 255);
             case REFLECTIVE:
                 Ray reflectRay = eye.reflection(normal);
-                Point reflect = Point.scalar(s.material.getkReflect(), cast(reflectRay, depth + 1));
+                Point reflect = Point.scalar(e.material.getkReflect(), cast(reflectRay, depth + 1));
                 return Point.sum(diffuse, shiny, reflect).clamp(0, 255);
             default:
                 return new Point();

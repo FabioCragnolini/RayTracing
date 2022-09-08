@@ -12,7 +12,7 @@ public class MainBenchMark {
         metal.setShiny(0.33, 30);
         metal.setReflection(0.6);
 
-        Vector<Sphere> vs = new Vector<Sphere>();
+        Vector<Entity> vs = new Vector<Entity>();
         vs.add(new Sphere(1.5, new Point(6, 1.5, 2), new Point(100, 100, 100), metal));
         vs.add(new Sphere(1.5, new Point(3, 1.5, 2), new Point(100, 100, 100), metal));
         vs.add(new Sphere(500, new Point(0, -500, 0), new Point(164, 145, 255), rubber));

@@ -79,6 +79,10 @@ public class Point {
         return new Point(clamp(x, min, max), clamp(y, min, max), clamp(z, min, max));
     }
 
+    public Point abs() {
+        return new Point(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
     private static double clamp(double x, double min, double max) {
         return Math.max(0, Math.min(x, max));
     }
