@@ -1,4 +1,5 @@
 import java.util.Vector;
+
 import lib.*;
 
 public class MainBenchMark {
@@ -15,7 +16,7 @@ public class MainBenchMark {
         Vector<Entity> vs = new Vector<Entity>();
         vs.add(new Sphere(1.5, new Point(6, 1.5, 2), new Point(100, 100, 100), metal));
         vs.add(new Sphere(1.5, new Point(3, 1.5, 2), new Point(100, 100, 100), metal));
-        vs.add(new Sphere(500, new Point(0, -500, 0), new Point(164, 145, 255), rubber));
+        vs.add(new Box(new Point(-500,-100,-500), new Point(500,0,500), new Point(164, 145, 255), rubber));
         vs.add(new Sphere(1, new Point(-3, 1, 4), new Point(231, 111, 81), plastic));
         vs.add(new Sphere(1, new Point(-2.5, 1, 2), new Point(244, 162, 97), plastic));
         vs.add(new Sphere(1, new Point(-2, 1, 0), new Point(233, 196, 106), plastic));

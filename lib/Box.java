@@ -14,21 +14,21 @@ public class Box extends Entity {
     @Override
     public double intersect(Ray r) {
         double tmin, tmax;
-        if (r.getDir().getX() >= 0) {
-            tmin = (min.getX() - r.getOrigin().getX()) / r.getDir().getX();
-            tmax = (max.getX() - r.getOrigin().getX()) / r.getDir().getX();
+        if (r.getDir().x >= 0) {
+            tmin = (min.x - r.getOrigin().x) / r.getDir().x;
+            tmax = (max.x - r.getOrigin().x) / r.getDir().x;
         } else {
-            tmin = (max.getX() - r.getOrigin().getX()) / r.getDir().getX();
-            tmax = (min.getX() - r.getOrigin().getX()) / r.getDir().getX();
+            tmin = (max.x - r.getOrigin().x) / r.getDir().x;
+            tmax = (min.x - r.getOrigin().x) / r.getDir().x;
         }
 
         double tymin, tymax;
-        if (r.getDir().getY() >= 0) {
-            tymin = (min.getY() - r.getOrigin().getY()) / r.getDir().getY();
-            tymax = (max.getY() - r.getOrigin().getY()) / r.getDir().getY();
+        if (r.getDir().y >= 0) {
+            tymin = (min.y - r.getOrigin().y) / r.getDir().y;
+            tymax = (max.y - r.getOrigin().y) / r.getDir().y;
         } else {
-            tymin = (max.getY() - r.getOrigin().getY()) / r.getDir().getY();
-            tymax = (min.getY() - r.getOrigin().getY()) / r.getDir().getY();
+            tymin = (max.y - r.getOrigin().y) / r.getDir().y;
+            tymax = (min.y - r.getOrigin().y) / r.getDir().y;
         }
         if ((tmin > tymax) || (tymin > tmax))
             return -1.0;
@@ -38,12 +38,12 @@ public class Box extends Entity {
             tmax = tymax;
 
         double tzmin, tzmax;
-        if (r.getDir().getZ() >= 0) {
-            tzmin = (min.getZ() - r.getOrigin().getZ()) / r.getDir().getZ();
-            tzmax = (max.getZ() - r.getOrigin().getZ()) / r.getDir().getZ();
+        if (r.getDir().z >= 0) {
+            tzmin = (min.z - r.getOrigin().z) / r.getDir().z;
+            tzmax = (max.z - r.getOrigin().z) / r.getDir().z;
         } else {
-            tzmin = (max.getZ() - r.getOrigin().getZ()) / r.getDir().getZ();
-            tzmax = (min.getZ() - r.getOrigin().getZ()) / r.getDir().getZ();
+            tzmin = (max.z - r.getOrigin().z) / r.getDir().z;
+            tzmax = (min.z - r.getOrigin().z) / r.getDir().z;
         }
         if ((tmin > tzmax) || (tzmin > tmax))
             return -1.0;
@@ -57,14 +57,14 @@ public class Box extends Entity {
     @Override
     public Ray normal(Point p) {
         Point delta = Point.diff(p, center());
-        delta = new Point(delta.getX() / xLength(), delta.getY() / yLength(), delta.getZ() / zLength());    // Normalize distances for non squared boxes
+        delta = new Point(delta.x / xLength(), delta.y / yLength(), delta.z / zLength());    // Normalize distances for non squared boxes
         Point deltaAbs = delta.abs();
-        if (deltaAbs.getX() > deltaAbs.getY() && deltaAbs.getX() > deltaAbs.getZ())
-            return new Ray(p, new Point(Math.signum(delta.getX()), 0, 0));
-        else if (deltaAbs.getY() > deltaAbs.getZ())
-            return new Ray(p, new Point(0, Math.signum(delta.getY()), 0));
+        if (deltaAbs.x > deltaAbs.y && deltaAbs.x > deltaAbs.z)
+            return new Ray(p, new Point(Math.signum(delta.x), 0, 0));
+        else if (deltaAbs.y > deltaAbs.z)
+            return new Ray(p, new Point(0, Math.signum(delta.y), 0));
         else
-            return new Ray(p, new Point(0, 0, Math.signum(delta.getZ())));
+            return new Ray(p, new Point(0, 0, Math.signum(delta.z)));
     }
 
     private Point center() {
@@ -72,12 +72,12 @@ public class Box extends Entity {
     }
 
     private double xLength() {
-        return Math.abs(max.getX() - min.getX());
+        return Math.abs(max.x - min.x);
     }
     private double yLength() {
-        return Math.abs(max.getY() - min.getY());
+        return Math.abs(max.y - min.y);
     }
     private double zLength() {
-        return Math.abs(max.getZ() - min.getZ());
+        return Math.abs(max.z - min.z);
     }
 }

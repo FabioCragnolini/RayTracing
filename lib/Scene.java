@@ -63,8 +63,8 @@ public class Scene {
 
             for (i = 0; i < camera.getyDim(); i++) {
                 for (j = 0; j < camera.getxDim(); j++) {
-                    Color pixelColor = new Color((int) matrix.get(i).get(j).getX(), (int) matrix.get(i).get(j).getY(),
-                            (int) matrix.get(i).get(j).getZ());
+                    Color pixelColor = new Color((int) matrix.get(i).get(j).x, (int) matrix.get(i).get(j).y,
+                            (int) matrix.get(i).get(j).z);
                     image.setRGB(j, camera.getyDim() - 1 - i, pixelColor.getRGB());
                 }
             }
@@ -73,7 +73,6 @@ public class Scene {
         } catch (Exception e) {
             System.err.println(e);
             System.err.println("(" + i + ", " + j + ") Color: " + matrix.get(i).get(j).toString());
-            ;
         }
     }
 
@@ -104,7 +103,7 @@ public class Scene {
             return currentColor.clamp(0, 255);
 
         } else { // background
-            int shade = (int) ((r.getDir().normalize().getY() + 1) / 2.0 * 255);
+            int shade = (int) ((r.getDir().normalize().y + 1) / 2.0 * 255);
             return new Point(255 - shade, 255 - shade / 1.5, 255);
         }
     }

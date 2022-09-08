@@ -31,24 +31,24 @@ public class Sphere extends Entity {
 
     @Override
     public Ray normal(Point p) {
-            Point normalDir = Point.diff(p, center).normalize();
-            return new Ray(p, normalDir);
+        Point normalDir = Point.diff(p, center).normalize();
+        return new Ray(p, normalDir);
     }
 
     public int intersect(Entity e) {
-        Sphere s = (Sphere)e;
+        Sphere s = (Sphere) e;
         Point d = Point.diff(center, s.center);
         if (d.length() > radius + s.radius)
             return 0;
         else
             return 1;
     }
+
     public int intersect(Vector<Entity> vs) {
-        for(int i = 0; i < vs.size(); i++)
-        {
-            if(intersect(vs.elementAt(i)) == 1)
-            return 1;
+        for (int i = 0; i < vs.size(); i++) {
+            if (intersect(vs.elementAt(i)) == 1)
+                return 1;
         }
         return 0;
-    }    
+    }
 }

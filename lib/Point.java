@@ -1,9 +1,9 @@
 package lib;
 
 public class Point {
-    private double x;
-    private double y;
-    private double z;
+    public double x;
+    public double y;
+    public double z;
 
     public Point() {
         this.x = 0.0;
@@ -21,18 +21,6 @@ public class Point {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
     }
 
     public static Point sum(Point p1, Point p2) {
