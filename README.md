@@ -2,7 +2,7 @@
 A simple ray tracer based on Phong shading model.
 It renders spheres, boxes and can be extended to any entity that implements an intersection and normal method.
 <figure>
-    <img alt="Thumbnail" src="Renders/00-Thumbnail.png" width="600">
+    <img alt="Thumbnail" src="Renders/00-Thumbnail.png">
 </figure>
 ## Usage
 Create an entity vector, a light vector, a camera and add them to the scene.
