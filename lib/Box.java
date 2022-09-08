@@ -57,6 +57,7 @@ public class Box extends Entity {
     @Override
     public Ray normal(Point p) {
         Point delta = Point.diff(p, center());
+        delta = new Point(delta.getX() / xLength(), delta.getY() / yLength(), delta.getZ() / zLength());    // Normalize distances for non squared boxes
         Point deltaAbs = delta.abs();
         if (deltaAbs.getX() > deltaAbs.getY() && deltaAbs.getX() > deltaAbs.getZ())
             return new Ray(p, new Point(Math.signum(delta.getX()), 0, 0));
@@ -68,5 +69,15 @@ public class Box extends Entity {
 
     private Point center() {
         return Point.scalar(0.5, Point.sum(max, min));
+    }
+
+    private double xLength() {
+        return Math.abs(max.getX() - min.getX());
+    }
+    private double yLength() {
+        return Math.abs(max.getY() - min.getY());
+    }
+    private double zLength() {
+        return Math.abs(max.getZ() - min.getZ());
     }
 }
